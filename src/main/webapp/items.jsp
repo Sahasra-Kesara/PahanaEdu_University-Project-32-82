@@ -62,7 +62,7 @@
                 <td><input type="number" step="0.01" name="price" value="<%= item.getPrice() %>" class="form-control"></td>
                 <td><input type="number" name="quantity" value="<%= item.getQuantity() %>" class="form-control"></td>
                 <td>
-                    <button type="submit" class="btn btn-success btn-sm">📄Save</button>
+                    <button type="submit" class="btn btn-success btn-sm">Save</button>
                     <a href="items" class="btn btn-secondary btn-sm">Cancel</a>
                 </td>
             </form>
