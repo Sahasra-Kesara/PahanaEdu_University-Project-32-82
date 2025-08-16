@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Pahana Edu - Customer Management</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+</head>
+<body class="bg-light">
+
+<!-- Logout Button -->
+<div class="d-flex justify-content-end p-3">
+    <a href="logout" class="btn btn-danger">Logout</a>
+</div>
+
+<div class="container my-5">
+    <h2 class="mb-4">Add / Edit Customer</h2>
+    <div id="message"></div>
+
+    <form id="customerForm" class="bg-white p-4 rounded shadow-sm mb-5">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="accountNo" class="form-label">Account Number</label>
+                <input type="text" id="accountNo" class="form-control" required />
+            </div>
+            <div class="col-md-6">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" id="name" class="form-control" required />
+            </div>
+            <div class="col-md-6">
+                <label for="address" class="form-label">Address</label>
+                <input type="text" id="address" class="form-control" required />
+            </div>
+            <div class="col-md-6">
+                <label for="phone" class="form-label">Phone</label>
+                <input type="text" id="phone" class="form-control" required />
+            </div>
+            <div class="col-md-6">
+                <label for="units" class="form-label">Units Consumed</label>
+                <input type="number" id="units" class="form-control" required min="0" />
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" id="submitBtn" class="btn btn-success">Add Customer</button>
+            <button type="button" id="cancelEditBtn" class="btn btn-secondary ms-2" style="display:none;">Cancel Edit</button>
+        </div>
+    </form>
+
+    <h2 class="mb-4">Customers</h2>
+    <div class="table-responsive">
+        <table id="customersTable" class="table table-striped table-bordered bg-white shadow-sm rounded">
+            <thead class="table-dark">
+            <tr>
+                <th>Account No</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Units</th>
+                <th style="min-width: 200px;">Actions</th>
+            </tr>
+            </thead>
+            <tbody><!-- Rows added by JS --></tbody>
+        </table>
+    </div>
+    <a href="admin-dashboard.jsp" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+
+<!-- Bill Modal -->
+<div class="modal fade" id="billModal" tabindex="-1" aria-labelledby="billModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="billModalLabel">Bill Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Customer:</strong> <span id="modalCustomerName"></span></p>
+                <p><strong>Units Consumed:</strong> <span id="modalUnits"></span></p>
+                <p><strong>Total Amount:</strong> Rs. <span id="modalTotal"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button class="btn btn-success" id="downloadPdfBtn">Download PDF</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    const messageDiv = document.getElementById('message');
+    const customerForm = document.getElementById('customerForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const cancelEditBtn = document.getElementById('cancelEditBtn');
+    const tbody = document.querySelector('#customersTable tbody');
+
+    let editingAccountNo = null;
+
+    const contextPath = window.location.pathname.split('/')[1] ? `/${window.location.pathname.split('/')[1]}` : '';
+
+    function showMessage(msg, isSuccess = true) {
+        messageDiv.innerHTML = `
+      <div class="alert ${isSuccess ? 'alert-success' : 'alert-danger'} alert-dismissible fade show" role="alert">
+        ${msg}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>`;
+    }
+
+    async function fetchCustomers() {
+        const res = await fetch(`${contextPath}/customer/list`);
+        const customers = await res.json();
+        tbody.innerHTML = '';
+        customers.forEach(c => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+        <td>${c.accountNo}</td>
+        <td>${c.name}</td>
+        <td>${c.address}</td>
+        <td>${c.phone}</td>
+        <td>${c.units}</td>
+        <td>
+          <button class="btn btn-primary btn-sm me-1 edit" data-account="${c.accountNo}">✏Edit</button>
+          <button class="btn btn-danger btn-sm me-1 delete" data-account="${c.accountNo}">🗑Delete</button>
+          <button class="btn btn-info btn-sm bill" data-account="${c.accountNo}">🧾Bill</button>
+        </td>`;
+            tbody.appendChild(tr);
+        });
+    }
+
+    customerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const customer = {
+            accountNo: document.getElementById('accountNo').value.trim(),
+            name: document.getElementById('name').value.trim(),
+            address: document.getElementById('address').value.trim(),
+            phone: document.getElementById('phone').value.trim(),
+            units: parseInt(document.getElementById('units').value)
+        };
+
+        if (!customer.accountNo) {
+            showMessage('Account Number is required.', false);
+            return;
+        }
+
+        try {
+            let url = `${contextPath}/customer/add`;
+            if (editingAccountNo) url = `${contextPath}/customer/edit`;
+
+            const res = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(customer)
+            });
+
+            const data = await res.json();
+            showMessage(data.message || (editingAccountNo ? 'Customer updated.' : 'Customer added.'), res.ok);
+
+            if (res.ok) {
+                await fetchCustomers();
+                customerForm.reset();
+                if (editingAccountNo) {
+                    editingAccountNo = null;
+                    submitBtn.textContent = 'Add Customer';
+                    cancelEditBtn.style.display = 'none';
+                    document.getElementById('accountNo').disabled = false;
+                }
+            }
+        } catch (err) {
+            showMessage('Error processing request.', false);
+            console.error(err);
+        }
+    });
+
+    cancelEditBtn.addEventListener('click', () => {
+        customerForm.reset();
+        editingAccountNo = null;
+        submitBtn.textContent = 'Add Customer';
+        cancelEditBtn.style.display = 'none';
+        document.getElementById('accountNo').disabled = false;
+        messageDiv.innerHTML = '';
+    });
+
+    tbody.addEventListener('click', async (e) => {
+        const target = e.target;
+        if (target.classList.contains('edit')) {
+            const accountNo = target.getAttribute('data-account');
+            const res = await fetch(`${contextPath}/customer/list`);
+            const customers = await res.json();
+            const customer = customers.find(c => c.accountNo === accountNo);
+            if (customer) {
+                document.getElementById('accountNo').value = customer.accountNo;
+                document.getElementById('name').value = customer.name;
+                document.getElementById('address').value = customer.address;
+                document.getElementById('phone').value = customer.phone;
+                document.getElementById('units').value = customer.units;
+                editingAccountNo = customer.accountNo;
+                submitBtn.textContent = 'Update Customer';
+                cancelEditBtn.style.display = 'inline-block';
+                document.getElementById('accountNo').disabled = true;
+                messageDiv.innerHTML = '';
+            }
+        } else if (target.classList.contains('delete')) {
+            const accountNo = target.getAttribute('data-account');
+            if (confirm(`Are you sure you want to delete customer: ${accountNo}?`)) {
+                try {
+                    const res = await fetch(`${contextPath}/customer/delete?accountNo=${accountNo}`, {
+                        method: 'DELETE'
+                    });
+                    const data = await res.json();
+                    showMessage(data.message, res.ok);
+                    if (res.ok) await fetchCustomers();
+                } catch (err) {
+                    showMessage('Failed to delete customer.', false);
+                    console.error(err);
+                }
+            }
+        } else if (target.classList.contains('bill')) {
+            const accountNo = target.getAttribute('data-account');
+            try {
+                const res = await fetch(`${contextPath}/billing/calculate?accountNo=${accountNo}`);
+                if (!res.ok) {
+                    const errData = await res.json();
+                    showMessage(errData.message || 'Failed to calculate bill.', false);
+                    return;
+                }
+                const bill = await res.json();
+
+                // Set modal values
+                document.getElementById('modalCustomerName').textContent = bill.customerName;
+                document.getElementById('modalUnits').textContent = bill.units;
+                document.getElementById('modalTotal').textContent = bill.total.toFixed(2);
+
+                // Show modal
+                const billModal = new bootstrap.Modal(document.getElementById('billModal'));
+                billModal.show();
+            } catch (err) {
+                showMessage('Error calculating bill.', false);
+                console.error(err);
+            }
+        }
+    });
+
+    document.getElementById('downloadPdfBtn').addEventListener('click', () => {
+        const name = document.getElementById('modalCustomerName').textContent;
+        const units = document.getElementById('modalUnits').textContent;
+        const total = document.getElementById('modalTotal').textContent;
+
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        doc.setFontSize(18);
+        doc.text("Pahana Edu - Electricity Bill", 20, 20);
+
+        doc.setFontSize(12);
+        doc.text(`Customer Name: ${name}`, 20, 40);
+        doc.text(`Units Consumed: ${units}`, 20, 50);
+        doc.text(`Total Amount: Rs. ${total}`, 20, 60);
+        doc.text("Thank you for using our service!", 20, 80);
+
+        doc.save(`bill_${name.replace(/\s+/g, '_')}.pdf`);
+    });
+
+
+    fetchCustomers();
+
+    //FF
+</script>
+
+</body>
+</html>
