@@ -1,6 +1,11 @@
 # Pahana Edu Billing System
 
 
+https://github.com/user-attachments/assets/2e7badb4-16b1-4a22-b234-9c8816157641
+
+
+**Demonstration Video:** 🎥 [Watch Demo Video](https://drive.google.com/file/d/1UhDcKnImDZrpr0Ql2J2iwh3GAJS42K1a/view?usp=drive_link)
+
 **Pahana Edu** is a leading bookshop in Colombo City. This project is a **web-based billing and customer management system** designed to replace manual record-keeping with a secure, efficient, and user-friendly platform.
 
 ---
