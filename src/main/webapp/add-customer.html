@@ -409,21 +409,40 @@
         }
     });
 
-    document.getElementById('downloadPdfBtn').addEventListener('click', () => {
+    document.getElementById('downloadPdfBtn').addEventListener('click', async () => {
         const name = document.getElementById('modalCustomerName').textContent;
         const units = document.getElementById('modalUnits').textContent;
         const total = document.getElementById('modalTotal').textContent;
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
-        doc.setFontSize(18);
-        doc.text("Pahana Edu - Electricity Bill", 20, 20);
-        doc.setFontSize(12);
-        doc.text(`Customer Name: ${name}`, 20, 40);
-        doc.text(`Units Consumed: ${units}`, 20, 50);
-        doc.text(`Total Amount: Rs. ${total}`, 20, 60);
-        doc.text("Thank you for using our service!", 20, 80);
-        doc.save(`bill_${name.replace(/\s+/g, '_')}.pdf`);
+
+        // Add logo
+        const logoUrl = 'https://th.bing.com/th/id/R.b74f025cac76f88ff5ed0528fd52d2c9?rik=1T2UsrNxr0cvIw&pid=ImgRaw&r=0';
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.src = logoUrl;
+
+        img.onload = () => {
+            doc.addImage(img, 'PNG', 80, 10, 50, 50); // center logo
+            doc.setFontSize(18);
+            doc.setFont("helvetica", "bold");
+            doc.text("Pahana Edu -  Bill", 105, 70, { align: "center" });
+
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "normal");
+            doc.text(`Customer Name: ${name}`, 20, 90);
+            doc.text(`Units Consumed: ${units}`, 20, 100);
+            doc.text(`Total Amount: Rs. ${total}`, 20, 110);
+
+            doc.setDrawColor(0);
+            doc.setLineWidth(0.5);
+            doc.line(20, 115, 190, 115); // horizontal line
+
+            doc.text("Thank you for using our service!", 105, 130, { align: "center" });
+            doc.save(`bill_${name.replace(/\s+/g, '_')}.pdf`);
+        };
     });
+
 
     fetchCustomers();
 </script>
