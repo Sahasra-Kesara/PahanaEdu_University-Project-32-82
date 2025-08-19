@@ -16,7 +16,7 @@ https://github.com/user-attachments/assets/2e7badb4-16b1-4a22-b234-9c8816157641
   - Secure login with username and password.
 - **Add New Customer Accounts**
   - Store details: account number, name, address, telephone number, units consumed.
-- ✏**Edit Customer Information**
+- **Edit Customer Information**
   - Update existing customer records easily.
 - **Manage Item Information**
   - Add, update, and delete items available in the bookshop.
