@@ -90,13 +90,35 @@ public class CustomerDAO {
 
     public static boolean deleteCustomer(String accountNo) {
         try (Connection conn = DatabaseUtil.getConnection()) {
-            String sql = "DELETE FROM customers WHERE account_no = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, accountNo);
-            return stmt.executeUpdate() > 0;
+            conn.setAutoCommit(false); // start transaction
+
+            try {
+                // 1. Delete billing records for this customer
+                String deleteBilling = "DELETE FROM billing WHERE account_no = ?";
+                try (PreparedStatement stmtBilling = conn.prepareStatement(deleteBilling)) {
+                    stmtBilling.setString(1, accountNo);
+                    stmtBilling.executeUpdate();
+                }
+
+                // 2. Delete customer
+                String deleteCustomer = "DELETE FROM customers WHERE account_no = ?";
+                try (PreparedStatement stmtCustomer = conn.prepareStatement(deleteCustomer)) {
+                    stmtCustomer.setString(1, accountNo);
+                    int rows = stmtCustomer.executeUpdate();
+                    conn.commit();
+                    return rows > 0;
+                }
+            } catch (SQLException ex) {
+                conn.rollback(); // rollback on error
+                ex.printStackTrace();
+                return false;
+            } finally {
+                conn.setAutoCommit(true);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
+
 }
