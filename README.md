@@ -1,4 +1,4 @@
-# 📚 Pahana Edu Billing System
+# Pahana Edu Billing System
 
 ![Pahana Edu Banner](https://via.placeholder.com/1200x300?text=Pahana+Edu+Billing+System)
 
@@ -6,30 +6,30 @@
 
 ---
 
-## 🌟 Features
+##  Features
 
-- 🔐 **User Authentication (Login)**
+- **User Authentication (Login)**
   - Secure login with username and password.
-- ➕ **Add New Customer Accounts**
+- **Add New Customer Accounts**
   - Store details: account number, name, address, telephone number, units consumed.
-- ✏️ **Edit Customer Information**
+- ✏**Edit Customer Information**
   - Update existing customer records easily.
-- 🗂 **Manage Item Information**
+- **Manage Item Information**
   - Add, update, and delete items available in the bookshop.
-- 📄 **Display Account Details**
+- **Display Account Details**
   - Retrieve and display customer account information.
-- 💰 **Calculate and Print Bill**
+- **Calculate and Print Bill**
   - Compute bill based on units consumed and print receipts.
-- 🆘 **Help Section**
+- **Help Section**
   - System usage guidelines for new users.
-- 🚪 **Exit System**
+- **Exit System**
   - Graceful exit from the application.
 
 *Additional functionalities can be easily added as needed.*
 
 ---
 
-## 💻 Technology Stack
+## Technology Stack
 
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
 ![JSP](https://img.shields.io/badge/JSP-FF0000?style=for-the-badge&logo=apachetomcat&logoColor=white)
