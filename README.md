@@ -1,81 +1,77 @@
 # Pahana Edu Billing System
 
+![System Preview](https://github.com/user-attachments/assets/2e7badb4-16b1-4a22-b234-9c8816157641)
 
-https://github.com/user-attachments/assets/2e7badb4-16b1-4a22-b234-9c8816157641
-
-
-**Demonstration Video:** 🎥 [Watch Demo Video](https://drive.google.com/file/d/1UhDcKnImDZrpr0Ql2J2iwh3GAJS42K1a/view?usp=drive_link)
-
-**Pahana Edu** is a leading bookshop in Colombo City. This project is a **web-based billing and customer management system** designed to replace manual record-keeping with a secure, efficient, and user-friendly platform.
+**Demonstration Video:** [Watch Demo Video](https://drive.google.com/file/d/1UhDcKnImDZrpr0Ql2J2iwh3GAJS42K1a/view?usp=drive_link)
 
 ---
 
-##  Features
+## 1. Introduction
 
-- **User Authentication (Login)**
-  - Secure login with username and password.
-- **Add New Customer Accounts**
-  - Store details: account number, name, address, telephone number, units consumed.
-- **Edit Customer Information**
-  - Update existing customer records easily.
-- **Manage Item Information**
-  - Add, update, and delete items available in the bookshop.
-- **Display Account Details**
-  - Retrieve and display customer account information.
-- **Calculate and Print Bill**
-  - Compute bill based on units consumed and print receipts.
-- **Help Section**
-  - System usage guidelines for new users.
-- **Exit System**
-  - Graceful exit from the application.
+**Pahana Edu** is a leading bookshop in Colombo City, serving hundreds of customers monthly. Traditionally, customer account details and billing operations were maintained manually, which posed challenges in accuracy, efficiency, and scalability.  
 
-*Additional functionalities can be easily added as needed.*
+This project introduces a **web-based billing and customer management system** that leverages modern software technologies to streamline operations, enhance data security, and improve customer service delivery. The system provides structured management of customer accounts, billing, and inventory, ensuring transparency and efficiency in day-to-day business activities.
 
 ---
 
-## Technology Stack
+## 2. Objectives
 
-![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
-![JSP](https://img.shields.io/badge/JSP-FF0000?style=for-the-badge&logo=apachetomcat&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
-![Tomcat](https://img.shields.io/badge/Tomcat-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=black)
+- To design and implement a **secure, scalable, and user-friendly** billing system.  
+- To automate **customer account management** and **bill generation**.  
+- To provide administrative functionalities for managing items and users.  
+- To reduce errors associated with manual record-keeping.  
+- To create a platform that can be further extended with additional features.  
 
-- **Backend:** Java EE, JSP, Servlets  
+---
+
+## 3. Key Features
+
+- **User Authentication**
+  - Secure login with username and password for administrators and staff.  
+- **Customer Management**
+  - Add, edit, and update customer details (account number, name, address, telephone number, units consumed).  
+- **Item Management**
+  - Add, update, and delete items available in the bookshop inventory.  
+- **Account Information Display**
+  - Retrieve and present customer account details for verification and billing.  
+- **Billing System**
+  - Automatic computation of charges based on consumption or item purchase.  
+  - Printing of bills/receipts for customers.  
+- **System Help**
+  - Documentation and usage guidelines for new users.  
+- **System Exit**
+  - Secure logout and session termination.  
+
+---
+
+## 4. Technology Stack
+
+- **Backend:** Java EE (Servlets, JSP)  
 - **Database:** MySQL  
 - **Server:** Apache Tomcat 10.0.27  
-- **Frontend:** HTML, CSS, Bootstrap (optional)  
-- **Development Tools:** Eclipse/IntelliJ IDEA, MySQL Workbench  
+- **Frontend:** HTML, CSS, Bootstrap  
+- **Development Tools:** IntelliJ IDEA / Eclipse, MySQL Workbench  
 
 ---
 
-## 🛠 Installation & Setup
+## 5. Installation & Setup
 
-### 1. Clone the repository
-
+### Step 1: Clone the Repository
+```bash
 git clone https://github.com/YourUsername/PahanaEdu-BillingSystem.git
+```
 
-## 🛠 Installation & Setup
+### Step 2: Database Setup
 
-### 2. Setup MySQL Database
-- Create a database named `pahana_edu`.
-- Import the provided SQL scripts to create tables.
-
-### 3. Configure Database Connection
-- Update `DatabaseConnection.java` with your MySQL credentials.
-
-### 4. Deploy on Tomcat
-- Add the project to Tomcat `webapps`.
-- Start the server at [http://localhost:8080/PahanaEdu-BillingSystem](http://localhost:8080/PahanaEdu-BillingSystem).
+Run the following SQL script in MySQL Workbench:
 
 
-Create SQL database
 -- Create the database
 CREATE DATABASE pahanaedu;
 
--- Select the database to use
 USE pahanaedu;
 
--- Create the tables
+-- Create tables
 CREATE TABLE admin (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL,
@@ -108,14 +104,67 @@ CREATE TABLE item (
     quantity INT DEFAULT 0
 );
 
+-- Database User Privileges
 GRANT ALL PRIVILEGES ON pahanaedu.* TO 'root'@'localhost' IDENTIFIED BY 'Mathematics#123';
 FLUSH PRIVILEGES;
-
-
 
 CREATE USER 'pahanaeduuser'@'localhost' IDENTIFIED BY '1234';
 GRANT ALL PRIVILEGES ON pahanaedu.* TO 'pahanaeduuser'@'localhost';
 FLUSH PRIVILEGES;
 
-### 5. Access the Application
-- Login with default admin credentials or register new users.
+### Step 3: Configure Database Connection
+
+- Open `DatabaseConnection.java`.  
+- Update the MySQL username and password according to your local setup.
+
+---
+
+### Step 4: Deploy on Tomcat
+
+1. Copy the project into `Tomcat/webapps/`.  
+2. Start the Tomcat server.  
+3. Access the system at:  
+   [http://localhost:8080/PahanaEDU_war_exploded/login.jsp](http://localhost:8080/PahanaEDU_war_exploded/login.jsp)
+
+---
+
+### Step 5: Access the Application
+
+- Use default admin credentials (configured in the SQL script) or register new users.
+
+---
+
+### 6. Academic Relevance
+
+This project demonstrates the application of **Advanced Programming concepts**, including:
+
+- Web application development using **Java EE (JSP/Servlets)**  
+- Secure **database integration with MySQL**  
+- Deployment and configuration of **enterprise web applications** on Apache Tomcat  
+- Application of **version control (Git/GitHub)** for collaborative software engineering  
+- Practical understanding of **MVC design patterns** and modular system architecture  
+
+The project aligns with real-world **enterprise system development** practices and provides a foundation for future academic and industrial extensions.
+
+---
+
+### 7. Version Control & Workflow
+
+The system development followed a structured **Git-based workflow** to ensure proper version management:
+
+- **Main Branch:** Stable production-ready code  
+- **Feature Branches:** Separate branches for new features such as `feature/role-management` and `feature/two-columns-view`  
+- **Commit History:** Daily commits documenting progressive changes, bug fixes, and feature implementations  
+- **Merging Strategy:** Feature branches merged into `main` after peer review and successful testing  
+
+This approach highlights **best practices in collaborative development** and ensures that the system remains maintainable and extensible.
+
+---
+
+### 8. Conclusion
+
+The **Pahana Edu Billing System** successfully addresses the limitations of manual record-keeping by introducing a computerized solution that is efficient, reliable, and extensible.  
+
+Through this project, significant improvements in **data management**, **billing automation**, and **system usability** were achieved.  
+
+This work illustrates the integration of **software engineering principles** with **real-world business requirements**, providing a strong academic and practical contribution to the field of **Advanced Programming**.
