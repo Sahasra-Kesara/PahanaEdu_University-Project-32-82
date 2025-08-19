@@ -63,5 +63,55 @@ git clone https://github.com/YourUsername/PahanaEdu-BillingSystem.git
 - Add the project to Tomcat `webapps`.
 - Start the server at [http://localhost:8080/PahanaEdu-BillingSystem](http://localhost:8080/PahanaEdu-BillingSystem).
 
+
+Create SQL database
+-- Create the database
+CREATE DATABASE pahanaedu;
+
+-- Select the database to use
+USE pahanaedu;
+
+-- Create the tables
+CREATE TABLE admin (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(50),
+    role VARCHAR(20)
+);
+
+CREATE TABLE customers (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    account_no VARCHAR(20) NOT NULL UNIQUE,
+    name VARCHAR(100),
+    address VARCHAR(255),
+    phone VARCHAR(20),
+    units INT
+);
+
+CREATE TABLE billing (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    account_no VARCHAR(20),
+    units INT,
+    total DECIMAL(10,2),
+    billing_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (account_no) REFERENCES customers(account_no)
+);
+
+CREATE TABLE item (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    price DECIMAL(10,2),
+    quantity INT DEFAULT 0
+);
+
+GRANT ALL PRIVILEGES ON pahanaedu.* TO 'root'@'localhost' IDENTIFIED BY 'Mathematics#123';
+FLUSH PRIVILEGES;
+
+
+
+CREATE USER 'pahanaeduuser'@'localhost' IDENTIFIED BY '1234';
+GRANT ALL PRIVILEGES ON pahanaedu.* TO 'pahanaeduuser'@'localhost';
+FLUSH PRIVILEGES;
+
 ### 5. Access the Application
 - Login with default admin credentials or register new users.
