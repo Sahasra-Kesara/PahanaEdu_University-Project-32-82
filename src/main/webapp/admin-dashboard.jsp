@@ -92,8 +92,8 @@
                             <path d="M15 14c2.67 0 8 1.34 8 4v2H7v-2c0-2.66 5.33-4 8-4zm-6-2c1.66 0 3-1.34 3-3S10.66 6 9 6 6 7.34 6 9s1.34 3 3 3zm9-7v2h-2v2h-2V7h-2V5h2V3h2v2h2z"/>
                         </svg>
                     </div>
-                    <h5 class="card-title">Add Account</h5>
-                    <p class="card-text">Create or edit user accounts.</p>
+                    <h5 class="card-title">Customer Management Panel</h5>
+                    <p class="card-text">Create, edit or Delete Customer accounts.</p>
                 </div>
             </a>
         </div>
@@ -108,7 +108,7 @@
                             <path d="M12 1C9.79 1 8 2.79 8 5v3H7c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-8c0-1.1-.9-2-2-2h-1V5c0-2.21-1.79-4-4-4zM10 8V5c0-1.1.9-2 2-2s2 .9 2 2v3h-4zm2 7c-.83 0-1.5-.67-1.5-1.5S13.17 12 14 12s1.5.67 1.5 1.5S14.83 15 14 15z"/>
                         </svg>
                     </div>
-                    <h5 class="card-title">Role Management</h5>
+                    <h5 class="card-title">Role Management Panel</h5>
                     <p class="card-text">Change roles or add new admin/staff.</p>
                 </div>
             </a>
@@ -124,8 +124,8 @@
                             <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12V2zm-6 17v-5H8v-2h4v-5h2v5h4v2h-4v5h-2z"/>
                         </svg>
                     </div>
-                    <h5 class="card-title">Add Items</h5>
-                    <p class="card-text">Add or manage items.</p>
+                    <h5 class="card-title">Items Management Panel</h5>
+                    <p class="card-text">Add, Update, Delete items.</p>
                 </div>
             </a>
         </div>
@@ -134,7 +134,7 @@
 </div>
 
 <footer>
-    &copy; 2025 Sahasra Kesara Cooray. All rights reserved.
+    &copy; 2025 PahanaEdu. All rights reserved.
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
