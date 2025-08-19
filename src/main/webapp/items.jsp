@@ -73,12 +73,12 @@
             <td class="d-flex gap-1">
                 <form method="get" action="items">
                     <input type="hidden" name="editId" value="<%= item.getId() %>">
-                    <button class="btn btn-warning btn-sm" type="submit">✏Edit</button>
+                    <button class="btn btn-warning btn-sm" type="submit">Edit</button>
                 </form>
                 <form action="items" method="post">
                     <input type="hidden" name="action" value="delete">
                     <input type="hidden" name="id" value="<%= item.getId() %>">
-                    <button class="btn btn-danger btn-sm" type="submit">🗑Delete</button>
+                    <button class="btn btn-danger btn-sm" type="submit">Delete</button>
                 </form>
             </td>
             <% } %>
