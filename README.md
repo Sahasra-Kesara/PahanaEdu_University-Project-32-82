@@ -1,6 +1,10 @@
 # Pahana Edu Billing System
 
-![System Preview](https://github.com/user-attachments/assets/2e7badb4-16b1-4a22-b234-9c8816157641)
+
+
+https://github.com/user-attachments/assets/0a1e3574-da93-4a52-84db-91bdf298f9ec
+
+
 
 **Demonstration Video:** [Watch Demo Video](https://drive.google.com/file/d/1UhDcKnImDZrpr0Ql2J2iwh3GAJS42K1a/view?usp=drive_link)
 
